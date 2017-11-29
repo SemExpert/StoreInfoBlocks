@@ -12,9 +12,6 @@ env:
   - MAGENTO_HOST_NAME="magento2.travis"
   matrix:
   - MAGENTO_VERSION=2.1 TEST_SUITE=unit
-  - MAGENTO_VERSION=2.1 TEST_SUITE=static
-  - MAGENTO_VERSION=2.1 TEST_SUITE=js GRUNT_COMMAND=spec
-  - MAGENTO_VERSION=2.1 TEST_SUITE=js GRUNT_COMMAND=static
   - MAGENTO_VERSION=2.1 TEST_SUITE=integration INTEGRATION_INDEX=1
   - MAGENTO_VERSION=2.1 TEST_SUITE=integration INTEGRATION_INDEX=2
   - MAGENTO_VERSION=2.1 TEST_SUITE=integration INTEGRATION_INDEX=3
@@ -31,26 +28,17 @@ env:
   - MAGENTO_VERSION=2.2 TEST_SUITE=functional ACCEPTANCE_INDEX=2
 matrix:
   exclude:
+  # Only run JS unit tests with PHP 7.1
+  - php: 7.0
+    env: MAGENTO_VERSION=2.1 TEST_SUITE=js GRUNT_COMMAND=spec
+  - php: 7.0
+    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=spec
+
+  # Only run static tests with PHP 7.1
   - php: 7.0
     env: MAGENTO_VERSION=2.2 TEST_SUITE=static
   - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=spec
-  - php: 7.0
     env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=static
-  - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional ACCEPTANCE_INDEX=1
-  - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional ACCEPTANCE_INDEX=2
-  - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=static
-  - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=spec
-  - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=static
-  - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional ACCEPTANCE_INDEX=1
-  - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional ACCEPTANCE_INDEX=2
 cache:
   apt: true
   directories:
