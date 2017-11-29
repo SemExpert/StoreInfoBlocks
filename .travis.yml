@@ -91,6 +91,7 @@ before_install:
 - bash ./dev/travis/before_install.sh
 install:
 - composer install --no-interaction --prefer-dist
+- composer config repositories.test_target git https://github.com/${TRAVIS_REPO_SLUG}.git
 - composer require semexpert/module-store-info-blocks dev-$TRAVIS_BRANCH
 before_script: bash ./dev/travis/before_script.sh
 script:
