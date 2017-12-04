@@ -55,7 +55,7 @@ install:
 - composer config repositories.test_target git https://github.com/${TRAVIS_REPO_SLUG}.git
 - composer require semexpert/module-store-info-blocks dev-$TRAVIS_BRANCH
 before_script:
-- cp magento2/dev/travis/config/www.conf dev/travis/config/www.conf
+- cp dev/travis/config/www.conf $TRAVIS_BUILD_DIR/dev/travis/config/www.conf
 - bash ./dev/travis/before_script.sh
 script:
 - test $TEST_SUITE = "static" && TEST_FILTER='--filter "Magento\\Test\\Php\\LiveCodeTest"' || true
