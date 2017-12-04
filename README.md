@@ -69,7 +69,7 @@ lists and phpunit.xml configuration.
 ```bash
 cp ./dev/tests/static/phpunit.xml dev/tests/static/phpunit.xml
 cp ./dev/tests/static/less/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Less/_files/whitelist/common.txt
-cp ./dev/tests/static/php/blacklist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/common.txt
+cp ./dev/tests/static/php/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt
 ```
 
 ## Magento 2

@@ -56,8 +56,8 @@ install:
 - composer require semexpert/module-store-info-blocks dev-$TRAVIS_BRANCH
 before_script:
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/unit/phpunit.xml dev/tests/unit/
-- cp ./dev/tests/static/less/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Less/_files/whitelist/common.txt
-cp ./dev/tests/static/php/blacklist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/common.txt
+- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/less/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Less/_files/whitelist/common.txt
+- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/php/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt
 - bash ./dev/travis/before_script.sh
 script:
 - test $TEST_SUITE = "static" && TEST_FILTER='--filter "Magento\\Test\\Php\\LiveCodeTest"' || true
