@@ -1,0 +1,8 @@
+<?php  /** @var $block \SemExpert\StoreInfoBlocks\Block\Template */ ?>
+<?php $info = $block->getStoreInformation(); ?>
+<dl>
+<?php foreach ($info->getData() as $key => $value) : ?>
+    <dt><?= $block->escapeHtml($key) ?></dt>
+    <dd><?= $block->escapeHtml($value) ?></dd>
+<?php endforeach; ?>
+</dl>
