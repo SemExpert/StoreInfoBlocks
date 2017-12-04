@@ -56,6 +56,7 @@ install:
 - composer require semexpert/module-store-info-blocks dev-$TRAVIS_BRANCH
 before_script:
 - cp -f dev/travis/config/* ${TRAVIS_BUILD_DIR}/dev/travis/config/
+- cp -f ${TRAVIS_BUILD_DIR}/tests/unit/phpunit.xml dev/tests/unit/
 - bash ./dev/travis/before_script.sh
 script:
 - test $TEST_SUITE = "static" && TEST_FILTER='--filter "Magento\\Test\\Php\\LiveCodeTest"' || true
