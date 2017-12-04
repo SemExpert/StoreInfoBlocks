@@ -3,7 +3,7 @@
 SemExpert_StoreInfoBlocks enables developers to include Magento blocks in their themes that have access to Store 
 Configuration like address, phone number, etc.
 
-[![Build Status](https://travis-ci.org/SemExpert/StoreInfoBlocks.svg?branch=master)](https://travis-ci.org//SemExpert/StoreInfoBlocks)
+[![Build Status](https://travis-ci.org/SemExpert/StoreInfoBlocks.svg?branch=master)](https://travis-ci.org/SemExpert/StoreInfoBlocks)
 
 ## Getting Started
 
