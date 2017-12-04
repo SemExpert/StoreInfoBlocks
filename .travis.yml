@@ -18,8 +18,7 @@ env:
   - MAGENTO_VERSION=2.2 TEST_SUITE=integration INTEGRATION_INDEX=1
   - MAGENTO_VERSION=2.2 TEST_SUITE=integration INTEGRATION_INDEX=2
   - MAGENTO_VERSION=2.2 TEST_SUITE=integration INTEGRATION_INDEX=3
-  - MAGENTO_VERSION=2.2 TEST_SUITE=functional ACCEPTANCE_INDEX=1
-  - MAGENTO_VERSION=2.2 TEST_SUITE=functional ACCEPTANCE_INDEX=2
+  - MAGENTO_VERSION=2.2 TEST_SUITE=functional
 matrix:
   exclude:
   # Only run JS unit tests with PHP 7.1
@@ -31,6 +30,8 @@ matrix:
     env: MAGENTO_VERSION=2.2 TEST_SUITE=static
   - php: 7.0
     env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=static
+  - php: 7.0
+    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional
 cache:
   apt: true
   directories:
@@ -58,6 +59,8 @@ before_script:
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/unit/phpunit.xml dev/tests/unit/
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/less/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Less/_files/whitelist/common.txt
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/php/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt
+- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/js/whitelist/store-info-block.txt dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/
+- rm dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/magento.txt
 - bash ./dev/travis/before_script.sh
 script:
 - test $TEST_SUITE = "static" && TEST_FILTER='--filter "Magento\\Test\\Php\\LiveCodeTest"' || true
