@@ -57,7 +57,7 @@ install:
 before_script:
 - cp -f dev/travis/config/* ${TRAVIS_BUILD_DIR}/dev/travis/config/
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/unit/phpunit.xml dev/tests/unit/
-- bash ./dev/travis/before_script.sh
+- bash ./dev/travis/before_script.sh || (cat /home/travis/.phpenv/versions/7.0.22/etc/php-fpm.d/www.conf && false)
 script:
 - test $TEST_SUITE = "static" && TEST_FILTER='--filter "Magento\\Test\\Php\\LiveCodeTest"' || true
 - test $TEST_SUITE = "functional" && TEST_FILTER='dev/tests/functional/testsuites/Magento/Mtf/TestSuite/InjectableTests.php' || true
