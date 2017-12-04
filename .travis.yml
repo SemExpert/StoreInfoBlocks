@@ -42,6 +42,8 @@ matrix:
   # Give up trying to make these work
   - php: 7.0
     env: MAGENTO_VERSION=2.2 TEST_SUITE=functional
+  - php: 7.1
+    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional
 cache:
   apt: true
   directories:
