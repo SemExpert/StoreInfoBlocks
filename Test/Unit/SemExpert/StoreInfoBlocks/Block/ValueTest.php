@@ -152,7 +152,7 @@ class ValueTest extends TestCase
     /**
      * @param $data
      */
-    private function setStoreData($data): void
+    private function setStoreData($data)
     {
         $this->storeInfoMock->method('getStoreInformationObject')->willReturn(new DataObject($data));
     }
