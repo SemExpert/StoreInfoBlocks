@@ -199,6 +199,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-
 * Thanks to everybody involved in [this thread](https://magento.stackexchange.com/questions/125354/how-to-get-store-phone-number-in-magento-2) that served as an inspiration for the module.
 * [alepasian](https://github.com/alepasian) and [lupeportias](https://github.com/lupeportias) for hacking your way into M2 limitations.
