@@ -10,6 +10,7 @@ env:
   - INTEGRATION_SETS=3
   - NODE_JS_VERSION=6
   - MAGENTO_HOST_NAME="magento2.travis"
+  - TEST_MODULE=semexpert/module-store-info-blocks
   matrix:
   - MAGENTO_VERSION=2.2.6 TEST_SUITE=unit
   - MAGENTO_VERSION=2.2.6 TEST_SUITE=static
@@ -64,9 +65,10 @@ before_install:
 - cd magento2
 - bash ./dev/travis/before_install.sh
 install:
+- export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
 - composer install --no-interaction --prefer-dist
 - composer config repositories.test_target git https://github.com/${TRAVIS_REPO_SLUG}.git
-- composer require semexpert/module-store-info-blocks dev-$TRAVIS_BRANCH
+- composer require $TEST_MODULE dev-$BRANCH
 before_script:
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/unit/phpunit.xml dev/tests/unit/
 - cp ${TRAVIS_BUILD_DIR}/dev/tests/static/phpunit.xml.dist dev/tests/static/phpunit.xml
