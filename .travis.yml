@@ -10,40 +10,41 @@ env:
   - INTEGRATION_SETS=3
   - NODE_JS_VERSION=6
   - MAGENTO_HOST_NAME="magento2.travis"
+  - TEST_MODULE=semexpert/module-store-info-blocks
   matrix:
-  - MAGENTO_VERSION=2.2 TEST_SUITE=unit
-  - MAGENTO_VERSION=2.2 TEST_SUITE=static
-  - MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=spec
-  - MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=static
-  - MAGENTO_VERSION=2.2 TEST_SUITE=integration INTEGRATION_INDEX=1
-  - MAGENTO_VERSION=2.2 TEST_SUITE=integration INTEGRATION_INDEX=2
-  - MAGENTO_VERSION=2.2 TEST_SUITE=integration INTEGRATION_INDEX=3
-  - MAGENTO_VERSION=2.2 TEST_SUITE=functional
+  - MAGENTO_VERSION=2.2.6 TEST_SUITE=unit
+  - MAGENTO_VERSION=2.2.6 TEST_SUITE=static
+  - MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=spec
+  - MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=static
+  - MAGENTO_VERSION=2.2.6 TEST_SUITE=integration INTEGRATION_INDEX=1
+  - MAGENTO_VERSION=2.2.6 TEST_SUITE=integration INTEGRATION_INDEX=2
+  - MAGENTO_VERSION=2.2.6 TEST_SUITE=integration INTEGRATION_INDEX=3
+  #- MAGENTO_VERSION=2.2.6 TEST_SUITE=functional
 matrix:
   exclude:
   # Only run JS unit tests with PHP 7.1
   - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=spec
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=spec
 
   # Only run static tests with PHP 7.1
   - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=static
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=static
   - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=static
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=static
   - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=functional
 
   # No specific tests to run
   - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=static
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=static
   - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=js GRUNT_COMMAND=spec
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=spec
 
   # Give up trying to make these work
   - php: 7.0
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=functional
   - php: 7.1
-    env: MAGENTO_VERSION=2.2 TEST_SUITE=functional
+    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=functional
 cache:
   apt: true
   directories:
@@ -64,18 +65,19 @@ before_install:
 - cd magento2
 - bash ./dev/travis/before_install.sh
 install:
+- export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
 - composer install --no-interaction --prefer-dist
 - composer config repositories.test_target git https://github.com/${TRAVIS_REPO_SLUG}.git
-- composer require semexpert/module-store-info-blocks dev-$TRAVIS_BRANCH
+- composer require $TEST_MODULE dev-$BRANCH
 before_script:
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/unit/phpunit.xml dev/tests/unit/
+- cp ${TRAVIS_BUILD_DIR}/dev/tests/static/phpunit.xml.dist dev/tests/static/phpunit.xml
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/less/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Less/_files/whitelist/common.txt
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/php/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt
 - cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/js/whitelist/store-info-blocks.txt dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/
 - rm dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/magento.txt
 - bash ./dev/travis/before_script.sh
 script:
-- test $TEST_SUITE = "static" && TEST_FILTER='--filter "Magento\\Test\\Php\\LiveCodeTest"' || true
 - test $TEST_SUITE = "functional" && TEST_FILTER='dev/tests/functional/testsuites/Magento/Mtf/TestSuite/InjectableTests.php' || true
 - if [ $TEST_SUITE == "functional" ]; then dev/tests/functional/vendor/phpunit/phpunit/phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
 - if [ $TEST_SUITE != "functional" ] && [ $TEST_SUITE != "js" ]; then phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
