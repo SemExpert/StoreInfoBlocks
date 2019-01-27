@@ -16,14 +16,18 @@ You need a running copy of Magento2
 Also, in order for composer to locate the module repository, you need to have set up SemExpert repository:
 
 ```bash
-php composer.phar config repositories.semexpert composer https://packages.semexpert.com.ar/
+composer config repositories.semexpert composer https://packages.semexpert.com.ar/
 ```
 
 ### Install
 
 To get StoreInfoBlocks up and running, you need to add it as a dependency to your Magento composer.json file
 
-Either edit composer.json
+```bash
+composer require semexpert/module-store-info-blocks
+```
+
+Or add it manually to your composer.json
 
 ```json
 {
@@ -33,13 +37,7 @@ Either edit composer.json
 }
 ```
 
-or run composer require
-
-```bash
-php composer.phar require semexpert/module-store-info-blocks
-```
-
-after installing, you need to enable via the Magento CLI
+After installing, you need to enable via the Magento CLI
 
 ```bash
 php bin/magento module:enable SemExpert_StoreInfoBlocks
@@ -125,7 +123,7 @@ by calling `$block->getStoreInformation()`
 *storeinfo-modal-window.phtml*
 
 ```php
-<?php $storeInfo = $block->getStoreInfo(); ?>
+<?php $storeInfo = $block->getStoreInformation(); ?>
 <div class="call-us">
     <strong>Call Us at:</strong> <?= $storeInfo->getData('phone') ?> <?= $storeInfo->getData('hours') ?>
 </div>
