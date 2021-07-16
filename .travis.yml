@@ -15,5 +15,6 @@ install:
   - echo "$AUTH" > auth.json
   - composer install --no-interaction --prefer-dist
 script:
-  - if [ $TEST_SUITE == "unit" ]; then ./vendor/bin/phpunit
-  - if [ $TEST_SUITE == "static" ]; then ./vendor/bin/phpcs
+  - if [ $TEST_SUITE == "unit" ]; then ./vendor/bin/phpunit; fi
+  - if [ $TEST_SUITE == "static" ]; then ./vendor/bin/phpcs; fi
+
