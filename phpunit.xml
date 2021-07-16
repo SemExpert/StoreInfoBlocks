@@ -3,10 +3,9 @@
   <coverage>
     <include>
       <directory suffix=".php">Block</directory>
-      <directory suffix=".php">Model</directory>
     </include>
   </coverage>
   <testsuite name="Lyracons modules testsuite">
-    <directory suffix="Test.php">Test</directory>
+	  <directory suffix="Test.php">Test/Unit</directory>
   </testsuite>
 </phpunit>

@@ -17,18 +17,18 @@ env:
   - MAGENTO_VERSION=2.3.7 TEST_SUITE=integration INTEGRATION_INDEX=1
   - MAGENTO_VERSION=2.3.7 TEST_SUITE=integration INTEGRATION_INDEX=2
   - MAGENTO_VERSION=2.3.7 TEST_SUITE=integration INTEGRATION_INDEX=3
-  #- MAGENTO_VERSION=2.2.6 TEST_SUITE=functional
-matrix:
+  #- MAGENTO_VERSION=2.3.7 TEST_SUITE=functional
+jobs:
   exclude:
   # No specific tests to run
   - php: 7.4
-    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=static
+    env: MAGENTO_VERSION=2.3.7 TEST_SUITE=js GRUNT_COMMAND=static
   - php: 7.4
-    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=js GRUNT_COMMAND=spec
+    env: MAGENTO_VERSION=2.3.7 TEST_SUITE=js GRUNT_COMMAND=spec
 
   # Give up trying to make these work
   - php: 7.4
-    env: MAGENTO_VERSION=2.2.6 TEST_SUITE=functional
+    env: MAGENTO_VERSION=2.3.7 TEST_SUITE=functional
 cache:
   apt: true
   directories:
@@ -45,24 +45,26 @@ addons:
   hosts:
     - magento2.travis
 before_install:
-- git clone https://github.com/magento/magento2 --branch $MAGENTO_VERSION
-- cd magento2
-- bash ./dev/travis/before_install.sh
+#- git clone https://github.com/magento/magento2 --branch $MAGENTO_VERSION
+#- cd magento2
+#- bash ./dev/travis/before_install.sh
 install:
-- export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+#- export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
 - composer install --no-interaction --prefer-dist
-- composer config repositories.test_target git https://github.com/${TRAVIS_REPO_SLUG}.git
-- composer require $TEST_MODULE dev-$BRANCH
+#- composer config repositories.test_target git https://github.com/${TRAVIS_REPO_SLUG}.git
+#- composer require $TEST_MODULE dev-$BRANCH
 before_script:
-- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/unit/phpunit.xml dev/tests/unit/
-- cp ${TRAVIS_BUILD_DIR}/dev/tests/static/phpunit.xml.dist dev/tests/static/phpunit.xml
-- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/less/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Less/_files/whitelist/common.txt
-- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/php/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt
-- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/js/whitelist/store-info-blocks.txt dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/
-- rm dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/magento.txt
-- bash ./dev/travis/before_script.sh
+#- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/unit/phpunit.xml dev/tests/unit/
+#- cp ${TRAVIS_BUILD_DIR}/dev/tests/static/phpunit.xml.dist dev/tests/static/phpunit.xml
+#- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/less/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Less/_files/whitelist/common.txt
+#- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/php/whitelist/common.txt dev/tests/static/testsuite/Magento/Test/Php/_files/whitelist/common.txt
+#- cp -f ${TRAVIS_BUILD_DIR}/dev/tests/static/js/whitelist/store-info-blocks.txt dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/
+#- rm dev/tests/static/testsuite/Magento/Test/Js/_files/whitelist/magento.txt
+#- bash ./dev/travis/before_script.sh
 script:
 - test $TEST_SUITE = "functional" && TEST_FILTER='dev/tests/functional/testsuites/Magento/Mtf/TestSuite/InjectableTests.php' || true
 - if [ $TEST_SUITE == "functional" ]; then dev/tests/functional/vendor/phpunit/phpunit/phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
-- if [ $TEST_SUITE != "functional" ] && [ $TEST_SUITE != "js" ]; then phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
+#- if [ $TEST_SUITE != "functional" ] && [ $TEST_SUITE != "js" ]; then phpunit -c dev/tests/$TEST_SUITE $TEST_FILTER; fi
+- if [ $TEST_SUITE == "unit" ]; then ./vendor/bin/phpunit
+- if [ $TEST_SUITE == "static" ]; then ./vendor/bin/phpcs
 - if [ $TEST_SUITE == "js" ]; then grunt $GRUNT_COMMAND; fi

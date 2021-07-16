@@ -20,8 +20,6 @@ use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ValueTest
- * @package SemExpert\StoreInfoBlocks\Block
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ValueTest extends TestCase
