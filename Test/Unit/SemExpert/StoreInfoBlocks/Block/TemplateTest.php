@@ -42,7 +42,7 @@ class TemplateTest extends TestCase
      */
     protected $storeMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contextMock = $this->createMock(Context::class);

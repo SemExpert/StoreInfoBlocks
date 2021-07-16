@@ -66,7 +66,7 @@ class ValueTest extends TestCase
      */
     protected $filterManagerMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contextMock = $this->createMock(Context::class);
